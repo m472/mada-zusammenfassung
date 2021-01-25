@@ -1,0 +1,125 @@
+% arara: pdflatex
+\documentclass[a4paper, ngerman, landscape]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.5cm, includefoot]{geometry}
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage[ngerman]{babel}
+\usepackage{titlesec}
+\usepackage{calc}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{ifthen}
+\usepackage{color}
+\usepackage{textcase}
+\usepackage{capt-of}
+\usepackage{listings}
+\usepackage{stmaryrd}
+\usepackage{mathrsfs}
+\usepackage{algorithmic}
+\usepackage{tikz}
+
+\usepackage{lipsum}	% für Dummy-Text
+
+%
+\hypersetup{
+	unicode=true,
+	pdftitle={Mathematik für die Datenkommunikation},
+	pdfauthor={Mathias Graf},
+	pdfsubject={Zusammenfassung Mathematik für die Datenkommunikation},
+	pdfcreator={LaTeX},
+	pdfproducer={pdflatex},
+	pdfnewwindow=true
+}
+
+% Abstand und Linienbreite zwischen Spalten
+\setlength{\columnsep}{1cm}
+\setlength{\columnseprule}{0.4pt}
+
+% kein Einrücken bei neuem Absatz
+\setlength{\parindent}{0pt}
+
+% Weniger Abstand vor und nach überschriften
+\titlespacing\section{0pt}{12pt plus 4pt minus 2pt}{0pt plus 2pt minus 2pt}
+\titlespacing\subsection{0pt}{12pt plus 4pt minus 2pt}{0pt plus 2pt minus 2pt}
+\titlespacing\subsubsection{0pt}{12pt plus 4pt minus 2pt}{0pt plus 2pt minus 2pt}
+
+
+% Datastructure picture base size
+\newlength{\basesize}
+\setlength{\basesize}{0.7cm}
+
+% make comments in pseudocode c-style
+\renewcommand{\algorithmiccomment}[1]{\textcolor{gray}{// #1}}
+
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+		\node[shape=circle,draw,inner sep=1pt] (char) {#1};}}
+
+\pagestyle{fancy}
+
+% Footer konfigurieren
+\makeatletter
+\lfoot{\@title}
+\cfoot{\today}
+\rfoot{Seite~\thepage~von~\pageref{LastPage}}
+\makeatother
+\renewcommand{\footrulewidth}{0.4pt}							% hrule über footer
+
+\renewcommand{\labelitemi}{$\vcenter{\hbox{\tiny$\bullet$}}$}	% kleinere Dots in Itemize
+
+
+% Titel und Author
+\title{Zusammenfassung Mathematik für die Datenkommunikation}
+\author{Mathias Graf}
+\def\email{\href{mailto:mathias.graf@students.fhnw.ch}{\texttt{mathias.graf@students.fhnw.ch}}}
+
+\begin{document}
+
+% Titel setzen
+\makeatletter
+{\Large \textbf{\@title}}
+\hfill
+{\@author}
+\hfill
+\email
+\makeatother
+\hrule
+
+\begin{multicols*}{3}
+
+\subsubsection*{Erweiterter Euklidscher Algorithmus}
+
+\begin{algorithmic}
+\end{algorithmic}
+
+
+\subsubsection*{Algorithmus}
+\begin{algorithmic}
+	\STATE  $newMark \leftarrow$ false
+	\FORALL{pairs $(q, q')$ in $M$}
+		\IF{$(q \in F \wedge q' \notin F) \vee (q \notin F \wedge q' \in F)$}
+		\STATE $mark(q, q')$ \COMMENT{$M[q, q'] \leftarrow$ true}
+		\STATE $newMark \leftarrow$ true
+		\ENDIF
+	\ENDFOR
+	\WHILE{$newMark =$ true}
+		\STATE $newMark \leftarrow$ false
+		\FORALL{unmarked pairs $(q, q')$ in $M$}
+			\IF{($\exists e \in \Sigma : (\delta(q, e), \delta(q', e))$ is marked)}
+				\STATE $mark(q, q')$
+				\STATE $newMark \leftarrow$ true
+			\ENDIF
+		\ENDFOR
+	\ENDWHILE
+\end{algorithmic}
+
+\end{multicols*}
+
+\end{document}
+
+
