@@ -1,5 +1,5 @@
 % arara: pdflatex
-\documentclass[a4paper, ngerman, landscape]{article}
+\documentclass[a4paper, ngerman, landscape, fleqn]{article}
 
 \usepackage[utf8]{inputenc}
 \usepackage[margin=0.5cm, includefoot]{geometry}
@@ -21,8 +21,9 @@
 \usepackage{listings}
 \usepackage{stmaryrd}
 \usepackage{mathrsfs}
-\usepackage{algorithmic}
+\usepackage{algpseudocode}
 \usepackage{tikz}
+\usepackage{mathtools}
 
 \usepackage{lipsum}	% für Dummy-Text
 
@@ -92,25 +93,77 @@
 
 \begin{multicols*}{3}
 
+\section*{Teilbarkeit}
+Seien $a, b, c, d \in \mathbb{Z}$
+\begin{align}
+    a \backslash a \\
+    a \backslash b \wedge b \backslash a \implies a = b \vee a = -b \\
+    a, b \geq 0 \wedge a \backslash b \wedge b \backslash a \implies a = b \\
+    a \backslash b \wedge b \backslash c \implies a \backslash c \\
+    a \geq 0 \wedge b > 0 \wedge a \backslash b \implies a \leq b \\
+    1 \backslash a \wedge -1 \backslash a \wedge a \backslash a \wedge -a \backslash a \\
+    a \backslash 1 \vee a \backslash -1 \implies a = 1 \vee a = -1 \\
+    a \backslash 0 \\
+    0 \backslash a \implies a = 0 \\
+    a \backslash b \implies a \backslash -b \wedge -a \backslash b \wedge -a \backslash -b \\
+    a \backslash b \implies (\forall x \in \mathbb{Z} | a \backslash (b \cdot x)) \\
+    a \backslash b \implies (\forall x \in \mathbb{Z} | (a \cdot x) \backslash (b \cdot x)) \\
+    (a \cdot b) \backslash c \implies a \backslash c  \wedge b \backslash c \\
+    a \backslash b \wedge c \backslash d \implies (a \cdot c) \backslash (b \cdot d) \\
+    a \backslash b \wedge a \backslash c \implies (\forall u, v \in \mathbb{Z} | a \backslash (u \cdot b + v \cdot c))
+\end{align}
+
+\section*{Euklidsches Divisionslemma}
+Seien $a, b \in \mathbb{Z}, b \neq 0$. Dann gibt es eindeutige $q, r \in \mathbb{Z}$ mit:
+\begin{equation}
+    a = b \cdot q + r \wedge 0 \leq r < | b | 
+\end{equation}
+
+\section*{Normen der ganzzahligen Division}
+Seien $a, b \in \mathbb{Z}$ mit $b \neq 0$. Dann gibt es eindeutige $q_e, r_e, q_f, r_f, q_t r_t \in \mathbb{Z}$ mit
+
+\begin{align*}
+    a = b \cdot q_e + r_e \wedge 0 \leq r_e < | b | \\
+    a = b \cdot q_f + r_f \wedge 
+    \begin{cases*}
+        0 \leq r_f < b & if $b > 0$ \\
+        b < r_f \leq 0 & if $b < 0$
+    \end{cases*} \\
+    a = b \cdot q_t + r_t \wedge 
+    \begin{cases*}
+        0 \leq r_t < |b| & if $a \geq 0$ \\
+        -|b| < r_t \leq 0 & if $a \leq 0$
+    \end{cases*}
+\end{align*}
+
+
+\section*{Lemma von Bézout}
+\begin{equation*}
+    \forall a, b \in \mathbb{Z} \exists s, t \in \mathbb{Z} : gcd(a, b) = s \cdot a + t \cdot b
+\end{equation*}
+
 \section*{Erweiterter Euklidscher Algorithmus}
 
+Der erweiterte euklidsche Algorithmus berechnet zusätzlich zum GCD auch die Bézout-Koeffizienten.
+
 \begin{algorithmic}
-	\STATE  $newMark \leftarrow$ false
-	\FORALL{pairs $(q, q')$ in $M$}
-		\IF{$(q \in F \wedge q' \notin F) \vee (q \notin F \wedge q' \in F)$}
-		\STATE $mark(q, q')$ \COMMENT{$M[q, q'] \leftarrow$ true}
-		\STATE $newMark \leftarrow$ true
-		\ENDIF
-	\ENDFOR
-	\WHILE{$newMark =$ true}
-		\STATE $newMark \leftarrow$ false
-		\FORALL{unmarked pairs $(q, q')$ in $M$}
-			\IF{($\exists e \in \Sigma : (\delta(q, e), \delta(q', e))$ is marked)}
-				\STATE $mark(q, q')$
-				\STATE $newMark \leftarrow$ true
-			\ENDIF
-		\ENDFOR
-	\ENDWHILE
+    \Function{extended\_gca}{a, b}
+        \State (old\_r, r) := (a, b)
+        \State (old\_s, s) := (1, 0)
+        \State (old\_t, t) := (0, 1)
+
+        \While{$r \neq 0$}
+            \State quotient := old\_r \textbf{div} r
+            \State (old\_r, r) := (r, old\_r - quotient * r)
+            \State (old\_s, s) := (s, old\_s - quotient * s)
+            \State (old\_t, t) := (t, old\_t - quotient * t)
+        \EndWhile
+
+        \State \textbf{output} "Bézout-Koeffizienten:", (old\_s, old\_t)
+        \State \textbf{output} "Greatest Common Divisor:", old\_r
+        \State \textbf{output} "Quotients by the GCD:", (t, s)
+
+    \EndFunction
 \end{algorithmic}
 
 
