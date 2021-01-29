@@ -73,6 +73,7 @@
 
 \renewcommand{\labelitemi}{$\vcenter{\hbox{\tiny$\bullet$}}$}	% kleinere Dots in Itemize
 
+\newcommand{\Mod}{\ \mathrm{mod}\ }
 
 % Titel und Author
 \title{Zusammenfassung Mathematik für die Datenkommunikation}
@@ -95,7 +96,7 @@
 
 \section*{Teilbarkeit}
 Seien $a, b, c, d \in \mathbb{Z}$
-\begin{align}
+\begin{align*}
     a \backslash a \\
     a \backslash b \wedge b \backslash a \implies a = b \vee a = -b \\
     a, b \geq 0 \wedge a \backslash b \wedge b \backslash a \implies a = b \\
@@ -111,25 +112,25 @@ Seien $a, b, c, d \in \mathbb{Z}$
     (a \cdot b) \backslash c \implies a \backslash c  \wedge b \backslash c \\
     a \backslash b \wedge c \backslash d \implies (a \cdot c) \backslash (b \cdot d) \\
     a \backslash b \wedge a \backslash c \implies (\forall u, v \in \mathbb{Z} | a \backslash (u \cdot b + v \cdot c))
-\end{align}
+\end{align*}
 
 \section*{Euklidsches Divisionslemma}
 Seien $a, b \in \mathbb{Z}, b \neq 0$. Dann gibt es eindeutige $q, r \in \mathbb{Z}$ mit:
-\begin{equation}
+\begin{equation*}
     a = b \cdot q + r \wedge 0 \leq r < | b | 
-\end{equation}
+\end{equation*}
 
 \section*{Normen der ganzzahligen Division}
 Seien $a, b \in \mathbb{Z}$ mit $b \neq 0$. Dann gibt es eindeutige $q_e, r_e, q_f, r_f, q_t r_t \in \mathbb{Z}$ mit
 
 \begin{align*}
-    a = b \cdot q_e + r_e \wedge 0 \leq r_e < | b | \\
-    a = b \cdot q_f + r_f \wedge 
+    a = b \cdot q_e + r_e &\wedge 0 \leq r_e < | b | \\
+    a = b \cdot q_f + r_f &\wedge 
     \begin{cases*}
         0 \leq r_f < b & if $b > 0$ \\
         b < r_f \leq 0 & if $b < 0$
     \end{cases*} \\
-    a = b \cdot q_t + r_t \wedge 
+    a = b \cdot q_t + r_t &\wedge 
     \begin{cases*}
         0 \leq r_t < |b| & if $a \geq 0$ \\
         -|b| < r_t \leq 0 & if $a \leq 0$
@@ -142,7 +143,33 @@ Seien $a, b \in \mathbb{Z}$ mit $b \neq 0$. Dann gibt es eindeutige $q_e, r_e, q
     \forall a, b \in \mathbb{Z} \exists s, t \in \mathbb{Z} : gcd(a, b) = s \cdot a + t \cdot b
 \end{equation*}
 
-\section*{Erweiterter Euklidscher Algorithmus}
+\section*{GCD Definition}
+\begin{align*}
+    C_{a, b}, L_{a, b}, D_{a, b} : \mathbb{Z} \xrightarrow{total} \mathbb{B} \\
+    C_{a, b}(d) := d \backslash a \wedge d \backslash b \\
+    L_{a, b}(d) := (\exists u, v \in \mathbb{Z} | u \cdot a + v \cdot b = d) \\
+    D_{a, b}(d) := (\forall c \in \mathbb{Z} | c \backslash a \wedge c \backslash b \implies c \backslash d)
+\end{align*}
+
+\section*{Fundamentale Eigenschaften GCD}
+Seien $a, b, c, k \in \mathbb{Z}$. Dann gilt:
+
+\begin{align*}
+    \gcd(a, b) = 0 \iff a = 0 \wedge b = 0 \\
+    \gcd(a, 0) = |a| \\
+    \gcd(a, 1) = 1 \\
+    \gcd(a, a) = |a| \\
+    \gcd(a, b) = \gcd(b, a) \\
+    \gcd(a, b) = \gcd(|a|, |b|) \\
+    \gcd(a, b) = \gcd(a, b + k \cdot a) \\
+    \gcd(a, b) = \gcd(a, b - a) \\
+    a \neq 0 \implies \gcd(a, b) = \gcd(a, b \Mod a) \\
+    \gcd(a, \gcd(b, c)) = \gcd(\gcd(a, b), c) \\
+    \gcd(c \cdot a, c \cdot b) = |c| \cdot \gcd(a, b) \\
+    a \neq 0 \wedge b \neq 0 \implies \gcd(a, b) \leq min(|a|, |b|)
+\end{align*}
+
+\section*{Erw. Euklidscher Algorithmus}
 
 Der erweiterte euklidsche Algorithmus berechnet zusätzlich zum GCD auch die Bézout-Koeffizienten.
 
@@ -165,6 +192,39 @@ Der erweiterte euklidsche Algorithmus berechnet zusätzlich zum GCD auch die Bé
 
     \EndFunction
 \end{algorithmic}
+
+\section*{Abstrakte Algebra}
+
+\subsection*{Halbgruppe}
+Eine Halbgruppe $S = (S, \circ)$ besteht aus einer Menge $S$ und einer inneren zweistelligen Verknüpfung 
+\begin{equation*}
+    \circ : S \times S \rightarrow S, (a, b) \mapsto a \circ b
+\end{equation*}
+
+die assoziativ ist, d.\,h.
+\begin{equation*}
+    (\forall a, b, c \in S | a \circ (b \circ c) = (a \circ b) \circ c)
+\end{equation*}
+
+\subsection*{Gruppe}
+Eine Gruppe $S = (S, \circ)$ besteht aus einer Menge $S$ und einer inneren zweistelligen Verknüpfung
+\begin{equation*}
+    \circ : S \times S \rightarrow S, (a, b) \mapsto a \circ b
+\end{equation*}
+
+die folgenden Gruppenaxiome gennanten Forderungen:
+\begin{align*}
+    (a \circ b) \circ c = a \circ (b \circ c) \\
+    (\exists e \in G : \forall a \in G a \circ e = e \circ a = a) \\
+    (\forall a \in G : \exists a^{-1} : a \circ a^{-1} = a^{-1} \circ a = e)
+\end{align*}
+genügen.
+
+\subsection*{Kommutativität}
+Eine Halbgruppe, Gruppe oder ein Monoid heissen ``kommutativ'' oder ``abelsch'' wenn für alle $a, b \in S$ gilt:
+\begin{equation*}
+    b \circ a = a \circ b
+\end{equation*}
 
 
 \end{multicols*}
