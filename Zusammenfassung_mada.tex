@@ -24,6 +24,7 @@
 \usepackage{algpseudocode}
 \usepackage{tikz}
 \usepackage{mathtools}
+\usepackage{tabularx}
 
 \usepackage{lipsum}	% für Dummy-Text
 
@@ -175,23 +176,59 @@ Der erweiterte euklidsche Algorithmus berechnet zusätzlich zum GCD auch die Bé
 
 \begin{algorithmic}
     \Function{extended\_gca}{a, b}
-        \State (old\_r, r) := (a, b)
-        \State (old\_s, s) := (1, 0)
-        \State (old\_t, t) := (0, 1)
-
-        \While{$r \neq 0$}
-            \State quotient := old\_r \textbf{div} r
-            \State (old\_r, r) := (r, old\_r - quotient * r)
-            \State (old\_s, s) := (s, old\_s - quotient * s)
-            \State (old\_t, t) := (t, old\_t - quotient * t)
+        \State \Comment{Requires:}
+        \State \Comment{$a \geq 0 \wedge b \geq 0$}
+        \Statex
+        \State \Comment{Ensures:}
+        \State \Comment{$g = \gcd(a, b) \geq 0$}
+        \State \Comment{$|sign| = 1$}
+        \State \Comment{Probe 1: $(-sign \cdot u') \cdot g = b$}
+        \State \Comment{Probe 2: $(+sign \cdot v') \cdot g = a$}
+        \State \Comment{Probe 3: $u \cdot a + v \cdot b = g$}
+        \State \Comment{Probe 4: $u' \cdot a + v' \cdot b = 0$}
+        \State \Comment{Probe 5: $u \cdot v' - u' \cdot v = sign$}
+        \Statex
+        \State (g, g$'$) := (a, b)
+        \State (u, u$'$) := (1, 0)
+        \State (v, v$'$) := (0, 1)
+        \State sign := +1
+        \Statex
+        \While{$g' > 0$}
+            \State \Comment Invariante: $0 \leq g \wedge 0 \leq g'$
+            \State q := g \textbf{div} g$'$
+            \State (g, g$'$) := (g$'$, g - q $\cdot$ g$'$)
+            \State (u, u$'$) := (u$'$, u - q $\cdot$ u$'$)
+            \State (v, v$'$) := (v$'$, v - q $\cdot$ v$'$) 
+            \State sign := -sign
         \EndWhile
 
-        \State \textbf{output} "Bézout-Koeffizienten:", (old\_s, old\_t)
-        \State \textbf{output} "Greatest Common Divisor:", old\_r
-        \State \textbf{output} "Quotients by the GCD:", (t, s)
-
+        \State \textbf{output} ``Bézout-Koeffizienten:'', (u, v)
+        \State \textbf{output} ``Greatest Common Divisor:'', g
+        \State \textbf{output} ``Quotients by the GCD:'', (u$'$, v$'$)
     \EndFunction
 \end{algorithmic}
+
+\subsection*{Beispiel}
+a = 99, b = 78
+\vspace{1ex}
+
+\begin{tabularx}{\linewidth}{XXXXXXXX}
+    \hline
+     g & g$'$ & q &   u & u$'$ &  v & v$'$ & sign \\
+    \hline
+    99 &   78 &   &   1 &    0 &  0 &    1 &    + \\
+       &      & 1 &     &      &    &      &      \\
+    78 &   21 &   &   0 &    1 &  1 &   -1 &   $-$\\
+       &      & 3 &     &      &    &      &      \\
+    21 &   15 &   &   1 &   -3 & -1 &    4 &    + \\
+       &      & 1 &     &      &    &      &      \\
+    15 &    6 &   &  -3 &    4 &  4 &   -5 &   $-$\\
+       &      & 2 &     &      &    &      &      \\
+     6 &    3 &   &   4 &  -11 & -5 &   14 &    + \\
+       &      & 2 &     &      &    &      &      \\
+     3 &    0 &   & -11 &   26 & 14 &  -33 &   $-$\\
+    \hline
+\end{tabularx}
 
 \section*{Abstrakte Algebra}
 
@@ -205,6 +242,23 @@ die assoziativ ist, d.\,h.
 \begin{equation*}
     (\forall a, b, c \in S | a \circ (b \circ c) = (a \circ b) \circ c)
 \end{equation*}
+
+\subsection*{Monoid}
+
+Ein Monoid $(M, \circ, e)$ ist eine Halbgruppe mit neutralem Element, wobei $\circ$ eine innere zweistellige Verknüpfung ist:
+\begin{equation*}
+    \circ : M \times M \rightarrow M, (a, b) \mapsto a \circ b
+\end{equation*}
+
+\begin{equation*}
+    \forall a, b, c \in M : (a \circ b) \circ c = a \circ (b \circ c)
+\end{equation*}
+
+\begin{equation*}
+    (\exists e \in M : (\forall a \in M : e \circ a = a \circ e = a))
+\end{equation*}
+
+Jede Gruppe ist ein Monoid, aber ein Monoid besitzt im Gegensatz zu einer Gruppe nicht notwendigerweise ein inverses Element zu jedem Element.
 
 \subsection*{Gruppe}
 Eine Gruppe $S = (S, \circ)$ besteht aus einer Menge $S$ und einer inneren zweistelligen Verknüpfung
@@ -225,7 +279,6 @@ Eine Halbgruppe, Gruppe oder ein Monoid heissen ``kommutativ'' oder ``abelsch'' 
 \begin{equation*}
     b \circ a = a \circ b
 \end{equation*}
-
 
 \end{multicols*}
 
