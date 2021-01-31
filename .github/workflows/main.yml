@@ -30,3 +30,8 @@ jobs:
         with:
           root_file: Zusammenfassung_mada.tex
           extra_system_packages: texlive-latex-extra
+          
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Zusammenfassung_mada
+          path: Zusammenfassung_mada.pdf
