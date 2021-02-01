@@ -25,6 +25,7 @@
 \usepackage{tikz}
 \usepackage{mathtools}
 \usepackage{tabularx}
+\usepackage{stackengine}
 
 \usepackage{lipsum}	% für Dummy-Text
 
@@ -75,6 +76,10 @@
 \renewcommand{\labelitemi}{$\vcenter{\hbox{\tiny$\bullet$}}$}	% kleinere Dots in Itemize
 
 \newcommand{\Mod}{\ \mathrm{mod}\ }
+\newcommand{\plusdot}{\stackanchor[1pt]{$+$}{$\boldsymbol{\cdot}$}}
+\newcommand{\plusdotm}{\stackanchor[1pt]{$+_m$}{$\boldsymbol{\cdot}_m$}}
+
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
 
 % Titel und Author
 \title{Zusammenfassung Mathematik für die Datenkommunikation}
@@ -274,11 +279,269 @@ die folgenden Gruppenaxiome gennanten Forderungen:
 \end{align*}
 genügen.
 
+\subsection*{Untergruppen, zyklische Gruppen}
+Definition: Sei $(M, \circ_1, \dotsc, \circ_m)$ eine Algebra. Sei $N \subseteq M$, sei $N$ abgeschlossen unter $\circ_1, \dotsc, \circ_m$. Dann ist $(N, \circ_1, \dotsc, \circ_m)$ eine Algebra und heisst \emph{Subalgebra} von $(M, \circ_1, \dotsc, \circ_m)$.
+
+Beispiel: $(\mathbb{Z}^*_m, \cdot_m)$ eine Subalgebra von $(\mathbb{Z}_m, \cdot_m)$.
+
+Definition: Sei $G$ eine Gruppe. Eine Subalgebra $S$ von $G$ heisst \emph{Untergruppe (UG)} von $G$, wenn $S$ eine Gruppe ist.
+
+Beispiel: $(2\mathbb{Z}, +, 0, -\bullet)$ ist UG von $(\mathbb{Z}, +, 0, -\bullet)$.
+
+Satz: Sei $G = (M, \circ, 1, \bullet^{-1})$ Gruppe. Sei $a \in M$.
+Definiere:
+\begin{align*}
+    \left< a \right> :&= \{ a^i | i \in \mathbb{Z} \} \\
+                      &= \{ \dotsc, a^{-3}, a^{-2}, a^{-1}, a^{0}, a^1, a^2, a^3, \dotsc \}
+\end{align*}
+
+Dann ist $S = (\left< a \right>, \circ, 1, \bullet^{-1})$ UG von $G$ mit $1 = a^0$ neutral und $a^{-n}$ invers zu $a^n$.
+
+Definition: $(\left<a\right>, \circ)$ heisst die \emph{von $a$ erzeugte UG} von $G$. $a$ heisst \emph{Generator} der UG.
+
+Definition: Sei $G = (M, \circ)$ Gruppe. Falls $\exists a \in M : \left<a\right> = M$, dann heisst $G$ \emph{zyklische Gruppe}, $a$ heisst \emph{Generator} von $G$.
+
+Beispiel: $(\mathbb{Z}_6, +_6, 0, -_6\bullet)$
+\begin{align*}
+    \left<2\right> &= \{ i \times 2 | i \in \mathbb{Z} \} \\
+                   & \begin{multlined}
+                       = \{ \dotsc, (-3) \times 2, (-2) \times 2, (-1) \times 2, \\
+                           0 \times 2, 1 \times 2, 2 \times 2, 3 \times 2, \dotsc \}
+                     \end{multlined} \\
+                   & \begin{multlined}
+                       = \{ \dotsc, 3 \times (-_6 2), 2 \times (-_6 2), 1 \times (-_6 2), \\
+                       0 \times 2, 1 \times 2, 2 \times 2, 3 \times 2, \dotsc \}
+                     \end{multlined} \\
+                   &= \{ \dotsc, 0, 2, 4, 0, 2, 4, 0, \dotsc \} \\
+                   &= \{ 0, 2, 4 \}\ \textcolor{gray}{\in \mathbb{Z}_6 = \{ 0, 1, 2, 3, 4, 5 \}}
+\end{align*}
+
+\begin{align*}
+    \left< 0 \right> &= \{ 0 \} \\
+    \left< 1 \right> &= \left< 5 \right> = \mathbb{Z}_6 \\
+    \left< 2 \right> &= \left< 4 \right> \\
+    \left< 3 \right> &= \{ 0, 3 \}
+\end{align*}
+
+Somit ist $\mathbb{Z}_6$ \emph{zyklisch} da $\left< 1 \right> = \left< 5 \right> = \mathbb{Z}_6$.
+
+Definition: $G = (M, \circ, 1, \bullet^{-1})$ Gruppe. $a \in M$.
+Falls $m \in \mathbb{Z}^{\neq 0}$ existiert mit $a^m = 1$ dann existiert eine \emph{kleinste positive Zahl} $n \in \mathbb{N}^+$ mit $a^n = 1$. 
+
+Diese Zahl $n$ heisst \emph{Ordnung} von $a$, $n= \mathrm{ord}(a)$.
+
+Beispiel: $(\mathbb{Z}_6, +_6, 0, -_6\bullet); \mathrm{ord}(2)=\ ?$
+\begin{align*}
+    1 \times 2 &= 2 \neq 0 \\
+    2 \times 2 &= 2 +_6 2 = 4 \neq 0 \\
+    3 \times 2 &= 2 +_6 2 +_6 2 = 0 \\
+               &\implies \mathrm{ord}(2) = 3
+\end{align*}
+weil $3 \times 2 = 0$ \underline{und} $2 \times 2 \neq 0$ \underline{und} $1 \times 2 \neq 0$.
+
 \subsection*{Kommutativität}
 Eine Halbgruppe, Gruppe oder ein Monoid heissen ``kommutativ'' oder ``abelsch'' wenn für alle $a, b \in S$ gilt:
 \begin{equation*}
     b \circ a = a \circ b
 \end{equation*}
+
+\section*{Diophantische Gleichungen}
+\subsection*{Kongruenz}
+Seien $a, b, m \in \mathbb{Z}$. Dann heissen $a$ und $b$ \emph{kongruent modulo} $m$ wenn
+\begin{equation*}
+    m \backslash (a -b)
+\end{equation*}
+gilt.
+
+Dies wird als 
+\begin{equation*}
+    a \equiv_m b \ \ \text{oder}\ \ a \equiv b (\Mod m)
+\end{equation*}
+geschrieben.
+
+\vspace{1em}
+
+Das heisst:
+\begin{equation*}
+    \exists k \in \mathbb{Z} : a = b + k \cdot m
+\end{equation*}
+
+\subsection*{Menge der Reste modulo m}
+
+Sei $m \in \mathbb{N}^+$. Dann heisst
+\begin{equation*}
+    \mathbb{Z}_m := \{0,1,\dots, m - 1\}
+\end{equation*}
+Menge der Reste modulo m.
+
+\subsection*{Kongruenzsatz 1}
+Seien $a, b \in \mathbb{Z}, m \in \mathbb{N}^+$. Dann gilt:
+\begin{align*}
+    a \equiv_m b & \iff a \Mod m = b \Mod m \\
+    a \in \mathbb{Z}_m & \iff a \Mod m = a
+\end{align*}
+
+\subsection*{Kongruenzsatz 2}
+Seien $a, b \in \mathbb{Z}; m \in \mathbb{N}^+; k, l \in \mathbb{Z}$. Dann gilt:
+\begin{align*}
+    a \Mod m & = (a + k \cdot m) \Mod m \\
+    (a \plusdot b) \Mod m &= ((a + k \cdot m) \plusdot (b + l \cdot m)) \Mod m
+\end{align*}
+
+\subsubsection*{Korollar zu Kongruenz 2}
+(Ein Korollar ist eine Spezialisierung)
+
+\begin{align*}
+    a \Mod m &= (a \Mod m) \Mod m \\
+    (a \plusdot b) \Mod m &= ((a \Mod m) \plusdot (b \Mod m)) \Mod m
+\end{align*}
+
+\subsection*{Operationen modulo m}
+Sei $m \in \mathbb{N}^+$.
+\begin{alignat*}{2}
+    +_m, \cdot_m &: \mathbb{Z}_m \times \mathbb{Z}_m \xrightarrow{total} \mathbb{Z}_m & \\
+    a +_m b &= (a + b) \Mod m \hfill &\text{Addition modulo m} \\
+    a \cdot_m b &= (a \cdot b) \Mod m \hfill &\text{Multiplikation modulo m} 
+\end{alignat*}
+
+
+\section*{Homomorphismus}
+Seien $a, b \in \mathbb{Z}, m \in \mathbb{N}^+$.
+\begin{equation*}
+    (a \plusdot b) \Mod m = (a \Mod m) \plusdotm (b \Mod m)
+\end{equation*}
+
+Sei $m \in \mathbb{N}^+$.
+\begin{alignat*}{2}
+    &(\mathbb{Z}_m, +_m, 0, -_m\bullet) & \hfill \text{abelsche Gruppe} \\
+    &(\mathbb{Z}_m, \cdot_m, 1) & \hfill \text{abelsches Monoid (f"ur $m \geq 2$)} \\
+\end{alignat*}
+
+Sei $m \in \mathbb{N}^+, a \in \mathbb{Z}_m$. Dann:
+\begin{equation*}
+    -_m a = (-a) \Mod m = 
+    \begin{cases*}
+        m - a & f"ur $a \neq 0$ \\
+        0     & f"ur $a = 0$
+    \end{cases*}
+\end{equation*}
+
+\begin{align*}
+    a \cdot_m b &= (a \cdot b) \Mod m \\
+                &= a \cdot b - m \cdot q \\
+                &= a \cdot b + m \cdot (-q)
+\end{align*}
+
+
+Sei $m \in \mathbb{N}^+$.
+\begin{equation*}
+    \mathbb{Z}^*_m := \{ a \in \mathbb{Z}_m | a \perp m \}
+\end{equation*}
+heisst \emph{reduzierte Menge der Reste modulo m}.
+
+Sei $m \in \mathbb{N}^+$ mit $m \geq 2$. Dann ist
+\begin{equation*}
+    (\mathbb{Z}^*_m, \cdot_m, 1, \bullet^{-1}) 
+\end{equation*}
+eine abelsche Gruppe.
+
+\begin{algorithmic}
+    \Function{MultInvMod}{m, a : $\mathbb{Z}$}
+        \State \Comment{requires $m \geq 2 \wedge 0 \leq a < m$}
+        \State \Comment{ensures $ok \iff \gcd(m, a) = 1$}
+        \State \Comment{ensures $ok \implies 1 \leq aInv < m \wedge a \cdot_m aInv = 1$}
+        \State g, v : $\mathbb{Z}$
+        \State (g, \_, v, \_, \_, \_) := EuclidExtNat(m, a)
+        \State \Comment{$u \cdot m + v \cdot a = g$}
+        \State ok := g = 1
+        \State \If{ok}
+            \State aInv := v mod m
+        \EndIf
+    \EndFunction
+\end{algorithmic}
+
+\section*{Abgeschlossenheit}
+Definition: $M$ Menge, $\circ$ bin"are Operation auf $M$. Sei $N \subseteq M$.
+$N$ heisst \emph{abgeschlossen unter $\circ$} wenn
+\begin{equation*}
+    (\forall a, b \in N | a \circ b \in N)
+\end{equation*}
+
+Satz: $m \in \mathbb{N}^+$. $\mathbb{Z}^*_m$ abgeschlossen unter $\cdot_m$
+
+\section*{Eulersche $\varphi$-Funktion}
+Definition:  Die Funktion
+\begin{align*}
+    \varphi &: \mathbb{N}^+ \xrightarrow{total} \mathbb{N}^+ \\
+    \varphi(m) &= | \mathbb{Z}^*_m|
+\end{align*}
+heisst Eulersche $\varphi$-Funktion.
+
+Satz: Sei $p, q$ prim, $p \neq q$, $k \in \mathbb{N}^+$.
+\begin{align*}
+    \varphi(p) &= p - 1 \\
+    \varphi(p \cdot q) &= (p - 1) \cdot (q - 1) \\
+    \varphi(p^k) &= p^{k - 1} \cdot (p - 1)
+\end{align*}
+
+\section*{Potenzen/Vielfache}
+Definition: Sei $(M, \cdot, 1, \bullet^{-1})$ eine Gruppe (multiplikative Notation), $a \in M, n \in \mathbb{N}^+$.
+\begin{align*}
+    a^n &:= \underbrace{a \cdot a \cdot \dotsc \cdot a}_{\text{$n$ mal $a$, $n - 1$ mal $\cdot$}} \\
+    a^0 &:= 1 \\
+    a^{-n} &:= \left(a^{-1}\right)^n
+\end{align*}
+
+Sei $(M, +, 0, -\bullet)$ eine Gruppe (additive Noation),\\ 
+$a \in M, n \in \mathbb{N}^+$.
+
+\begin{align*}
+    n \times a &:= \underbrace{a + a + \dotsc + a}_{n \text{ mal das } a} \\
+    0 \times a &:= 0 \\
+    (-n) \times a &:= n \times (-a)
+\end{align*}
+
+Satz: $(M, \cdot, 1, \bullet^{-1})$ Gruppe. $a \in M; m, n \in \mathbb{Z}$.
+\begin{align*}
+    a^m \cdot a^n &= a^{m+n} \\
+    \left(a^m\right)^n &= a^{m \cdot n} 
+\end{align*}
+
+\section*{Modulare Exponentiation}
+\begin{algorithmic}
+    \Function{modular\_pow}{q, e, m}
+        \State p := 1
+        \State q := q mod m
+        \While{$e > 0$}
+            \If{e mod 2 == 1}
+                \State p := (p * q) mod m
+            \EndIf
+            \State e := e / 2
+            \State q := (q * q) mod m
+        \EndWhile
+        \State \Return p
+    \EndFunction
+\end{algorithmic}
+
+\subsection*{Beispiel}
+
+$(M, \circ, 1) := (\mathbb{Z}_{100}, \cdot_{100}, 1);\ 17^{20} = ?$
+
+\vspace{1ex}
+
+\begin{tabularx}{\linewidth}{YYY}
+    \hline
+     e & q & p \\
+    \hline
+    20 & 17 & 1 \\
+    10 & $17 \cdot_{100} 17 = 89$ & 1 \\
+    5 & $89 \cdot_{100} 89 = 21$ & 1 \\
+    4 & 21 & $21 \cdot_{100} 1 = 21$ \\
+    2 & $21 \cdot_{100} 21 = 41$ & 21 \\
+    1 & $41 \cdot_{100} 41 = 81$ & 21 \\
+    0 & 81 & $81 \cdot_{100} 21 = 1$ \\
+    \hline
+\end{tabularx}
 
 \end{multicols*}
 
