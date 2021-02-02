@@ -26,6 +26,7 @@
 \usepackage{mathtools}
 \usepackage{tabularx}
 \usepackage{stackengine}
+\usepackage{calculator}
 
 \usepackage{lipsum}	% für Dummy-Text
 
@@ -235,6 +236,24 @@ a = 99, b = 78
     \hline
 \end{tabularx}
 
+\subsection*{Komplexität}
+Der euklidsche Algorithmus liegt in der Komplexitätsklasse $\Theta(\log(a \cdot b))$.
+
+Für $a > b > 0 \wedge a > 2$ gilt:
+\begin{equation*}
+    1 \leq n < \frac{1}{\log_B(2)} \cdot \left(\log_B(a) + \log_B(b)\right)
+\end{equation*}
+
+\begin{equation*}
+    \LOG[10]{2}{\logtwo}
+    \DIVIDE{1}{\logtwo}{\sol}
+    \frac{1}{\log_{10}(2)}
+    \approx \sol
+\end{equation*}
+
+Der Zahlenwert der Konstante $\frac{1}{\log_{10}(2)}$ ist etwas kleiner als 3.33. Aufgrund der Ungleicheit muss das Resultat der Berechnung auf die nächst kleinere natürliche Zahl abgerundet werden.
+Das Worst-Case-Szenario für die Laufzeit ist, wenn $a$ und $b$ aufeinander folgende Fibonacci-Zahlen sind.
+
 \section*{Abstrakte Algebra}
 
 \subsection*{Halbgruppe}
@@ -339,8 +358,78 @@ Beispiel: $(\mathbb{Z}_6, +_6, 0, -_6\bullet); \mathrm{ord}(2)=\ ?$
 \end{align*}
 weil $3 \times 2 = 0$ \underline{und} $2 \times 2 \neq 0$ \underline{und} $1 \times 2 \neq 0$.
 
+\vspace{1.5ex}
+
+Satz (Ordnung): $G=(M, \circ)$ Gruppe. $a \in M$ mit \emph{endlicher Ordnung} $n=\mathrm{ord}(a)$. Dann gilt:
+\vspace{1.5ex}
+
+Die Potenzen
+\begin{equation*}
+    a^0, a^1, a^2, \dotsc, a^{n-1}
+\end{equation*}
+sind paarweise verschieden, und jede Potenz $a^i$ mit $i \in \mathbb{Z}$ ist eine dieser Potenzen. D.\,h.:
+\begin{align*}
+    \left<a\right> &= \{a^i | i \in \mathbb{Z}_\mathrm{ord}(a) \} \\
+    | \left< a \right> | &= \mathrm{ord}(a) \\
+    \text{Mit $t \in \mathbb{Z}$:\ }  
+    a^t = 1 &\iff \mathrm{ord}(a) \backslash t
+\end{align*}
+
+\subsection*{Nebenklassen}
+Definition: Sei $G = (M, \circ)$ eine Gruppe, $S$ sei UG von $G$. $a \in M$.
+Dann heisst:
+\begin{equation*}
+    a \circ S := \{ a \circ s | s \in S\} \ \mathrm{und} \ S \circ a := \{s \circ a | s \in S\}
+\end{equation*}
+\emph{Linksnebenklasse (LNK)} bzw. \emph{Rechtsnebenklasse (RNK)} von $S$ in $G$.
+
+Beispiel: $(\mathbb{Z}_6, +_6, 0, -_6\bullet)\ \left<3\right> = \{ 0, 3\}$
+
+\begin{align*}
+    0 +_6 \left<3\right> &= \{ 0 +_6 s | s \in \{0,3\}\} = \left<3\right> \\
+    1 +_6 \left<3\right> &= \{ 1 +_6 s | s \in \{1,4\}\} \\
+    2 +_6 \left<3\right> &= \{ 2 +_6 s | s \in \{2,5\}\} \\
+    3 +_6 \left<3\right> &= \{ 3 +_6 s | s \in \{0,3\}\} \\
+    4 +_6 \left<3\right> &= \{ 4 +_6 s | s \in \{1,4\}\} \\
+    5 +_6 \left<3\right> &= \{ 4 +_6 s | s \in \{2,5\}\} 
+\end{align*}
+
+Satz: Sei $G = (M, \circ)$ eine Gruppe, $S$ eine UG von $G$. Die Familie aller LNK $a\circ S$, $a \in G$ ist eine \emph{Partition} von $G$.
+
+\subsection*{Satz von Lagrange}
+Sei $G$ eine \emph{endliche} Gruppe, $S$ eine UG von $G$. Dann:
+
+\begin{equation*}
+    \#LNK \cdot |S| = |G|
+\end{equation*}
+also
+\begin{equation*}
+    |S| \backslash |G|
+\end{equation*}
+
+Also: Grösse (Ordnung) einer UG teilt Grösse (Ordnung) der Gruppe.
+
+\subsection*{Satz von Euler}
+\begin{equation*}
+    a^{\varphi(m)} = 1 \text{ in } \mathbb{Z}^*_m
+\end{equation*}
+
+\subsection*{Spezialisierung I auf $m=p, p$\ prim}
+Kleiner Satz von Fermat
+
+\begin{equation*}
+    a^{p-1} = 1 \text{ in } \mathbb{Z}^*_m, p\ \text{prim}
+\end{equation*}
+
+\subsection*{Spezialisierung II auf $m=p \cdot q$}
+$p, q$ prim, $p\neq q$ für RSA
+
+\begin{equation*}
+    a^{(p - 1)(q - 1)} = 1 \ \mathrm{in} \ \mathbb{Z}^*_{p \cdot q}
+\end{equation*}
+
 \subsection*{Kommutativität}
-Eine Halbgruppe, Gruppe oder ein Monoid heissen ``kommutativ'' oder ``abelsch'' wenn für alle $a, b \in S$ gilt:
+Eine Halbgruppe, Gruppe oder ein Monoid heissen ``kommutativ'' beziehungsweise ``abelsch'' wenn für alle $a, b \in S$ gilt:
 \begin{equation*}
     b \circ a = a \circ b
 \end{equation*}
@@ -400,8 +489,8 @@ Seien $a, b \in \mathbb{Z}; m \in \mathbb{N}^+; k, l \in \mathbb{Z}$. Dann gilt:
 Sei $m \in \mathbb{N}^+$.
 \begin{alignat*}{2}
     +_m, \cdot_m &: \mathbb{Z}_m \times \mathbb{Z}_m \xrightarrow{total} \mathbb{Z}_m & \\
-    a +_m b &= (a + b) \Mod m \hfill &\text{Addition modulo m} \\
-    a \cdot_m b &= (a \cdot b) \Mod m \hfill &\text{Multiplikation modulo m} 
+    a +_m b &= (a + b) \Mod m \ &\text{Addition modulo m} \\
+    a \cdot_m b &= (a \cdot b) \Mod m \ &\text{Multiplikation modulo m} 
 \end{alignat*}
 
 
@@ -542,6 +631,113 @@ $(M, \circ, 1) := (\mathbb{Z}_{100}, \cdot_{100}, 1);\ 17^{20} = ?$
     0 & 81 & $81 \cdot_{100} 21 = 1$ \\
     \hline
 \end{tabularx}
+
+\section*{RSA}
+\begin{equation*}
+    a^{\overbrace{(p-1)(q-1)}^{\varphi :=}} = 1
+\end{equation*}
+
+$p, q$ prim, $p \neq q$, $a \in \mathbb{Z}^*_{p\cdot q}$.
+
+\begin{minipage}{0.6\linewidth}
+    \begin{align*}
+        &\rightarrow a^{\varphi} = 1 \\
+        &\rightarrow \left(a^{\varphi} \right)^k = 1^k = 1 \\
+        &\rightarrow \left(a^{\varphi} \right)^k \cdot a = 1 \cdot a = a \\
+        &\rightarrow a^{\varphi \cdot k + 1} = a \\
+        &\rightarrow \left(a^e\right)^d = a \\
+        &\rightarrow a^{e \cdot d} = a
+    \end{align*}
+\end{minipage}%
+\begin{minipage}{0.4\linewidth}
+    \begin{tabular}{ll}
+        $a$: & Klartext \\
+        $e$: & Encipher \\
+        $d$: & Decipher \\
+        $a^e$: & Kryptotext \\
+    \end{tabular}
+\end{minipage}
+
+Wir brauchen:
+\begin{align*}
+    e \cdot d = \varphi \cdot k + 1 \\
+    \varphi \cdot (-k) + e \cdot d = 1 \\
+\end{align*}
+
+\textcolor{gray}{$\varphi, e$ gegeben}
+
+$\rightarrow$ Diophantische Gleichungen, $\mathrm{gcd}(\varphi, e) = 1$
+
+$\rightarrow$ d = $e^{-1} (\Mod \varphi)$
+
+\subsection*{Beispiel}
+\underline{Albert}
+\begin{align*}
+    p_A &= 29, q_A = 31, m_A = p_A \cdot q_A = \underline{\underline{899}} \\
+    e_A &= 13 \rightarrow d_A =\ ? \\
+    d_A &= e^{-1}_A (\Mod \varphi_A) \\
+    \varphi &= (p_A - 1) \cdot (q_A - 1) = \underline{\underline{840}} \\
+\end{align*}
+
+Erweiterter Euklidscher Algorithmus
+
+\begin{tabularx}{\linewidth}{cccYc}
+    $\varphi_A =$ & 840 &    & 0 &   \\
+    $e_A =$       &  13 &    & 1 & + \\
+                  &     & 64 &   &   \\
+                  &   8 &    & $0 -64 \cdot 1 = -64$ & $-$  \\
+                  &     &  1 &   &   \\
+                  &   5 &    & $1 - 1 \cdot (-64) = 65$ & $+$ \\
+                  &     &  1 &   &   \\
+                  &   3 &    & $-64 - 1\cdot 65 = -129$ & $-$ \\
+                  &     &  1 &   &   \\
+                  &   2 &    & $65 - 1 \cdot (-129) = 194$ & $+$ \\
+                  &     &  1 &   &   \\
+             $g=$ &   \underline{\underline{1}} &    & $-129 -1 \cdot 194 = \underline{\underline{-323}} = v$ & $-$ \\
+                  &     &  2 &   &   \\
+                  &   0 &    & $194 - 2\cot (-323) = \underline{\underline{840}} = v'$ & $\underline{\underline{+}}$ \\
+\end{tabularx}
+
+$g = 1 \implies \mathtt{ok} := \mathtt{true}$
+
+Probe:
+\begin{align*}
+    + sign\cdot v' \cdot g &= \varphi_A \\
+    +(+1)\cdot 840 \cdot 1 &= 840
+\end{align*}
+
+\underline{Julia}
+\begin{equation*}
+    y_i = x_i^{e_A} (\Mod m_A), \ m_A = 899, \ x_i = 271
+\end{equation*}
+
+\begin{tabularx}{\linewidth}{YYYl}
+    e = $e_A$ & q & p & \\
+    13 & 271 &   1 & \\
+    12 & 271 & 271 & \\
+     6 & 622 & 271 & \\
+     3 & 314 & 271 & \\
+     2 & 314 & 588 & \\
+     1 & 605 & 588 & \\
+     0 & 605 & 635 & = $y_i$ \\
+\end{tabularx}
+
+\underline{Albert}
+\begin{equation*}
+    x_i = y_i^{d_A} (\Mod m_A) \\
+\end{equation*}
+
+für $i=0$:
+\vspace{1.5ex}
+
+\begin{tabularx}{\linewidth}{YYYl}
+    e = $d_A$ & q & p & \\
+    517 & 635 & 1 & \\
+    $\vdots$ & $\vdots$ & $\vdots$ & \\
+     0 & & 271 & = $x_i$ \\
+\end{tabularx}
+
+$\square$
 
 \end{multicols*}
 
